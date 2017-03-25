@@ -16,6 +16,16 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+        let background = SKSpriteNode(imageNamed: "background")
+        
+        background.blendMode = .replace   //The blend mode used to draw the sprite into the parent’s framebuffer.
+        background.zPosition = 1
+        addChild(background)
+        
+        let gameboard = SKSpriteNode(imageNamed: "board")
+        gameboard.name = "board"
+        gameboard.zPosition = 2
+        addChild(gameboard)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
