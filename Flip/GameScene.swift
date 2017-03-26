@@ -38,16 +38,16 @@ class GameScene: SKScene {
         // Setting up constant for positioning
         let offsetX = -280
         let offsetY = -281
-        let StoneSize = 80
+        let stoneSize = 80
         
         for row in 0 ..< Board.size {
             
             var colArray = [Stone]()
             
             for col in 0 ..< Board.size{
-                let stone = Stone(color: UIColor.clear,size: CGSize(width: StoneSize, height: StoneSize ))
+                let stone = Stone(color: UIColor.clear,size: CGSize(width: stoneSize, height: stoneSize ))
             
-                stone.position = CGPoint(x: offsetX + (col * StoneSize), y: offsetY + (col * StoneSize))
+                stone.position = CGPoint(x: offsetX + (col * stoneSize), y: offsetY + (row * stoneSize))
                 
                 stone.row = row
                 stone.col = col
@@ -56,15 +56,21 @@ class GameScene: SKScene {
                 colArray.append(stone)
             }
             
+           // board.rows.append([StoneColor](repeating: .empty, count: Board.size))
+           // board.rows.append([StoneColor](repeatElement(.empty, count: Board.size)))
             board.rows.append([StoneColor](repeating: .empty, count: Board.size))
+            
+            // 7: add each column to the rows array
+            
             rows.append(colArray)
+
         }
+        
         
         rows[4][3].setPlayer(.white)
         rows[4][4].setPlayer(.black)
         rows[3][4].setPlayer(.white)
         rows[3][3].setPlayer(.black)
-        
         
         board.rows[4][3] = .white
         board.rows[4][4] = .black
