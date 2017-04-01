@@ -10,6 +10,9 @@ import UIKit
 
 class Board: NSObject {
 
+    var currentPlayer = Player.allPlayer[0]                // to board model need to which player is currently in control
+    
+    
     static let size = 8
     var rows = [[StoneColor]]()
     

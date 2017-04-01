@@ -17,6 +17,8 @@
 		C7090DB51E86E78B00FFACDB /* StoneColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7090DB41E86E78B00FFACDB /* StoneColor.swift */; };
 		C7090DB71E86E99A00FFACDB /* Stone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7090DB61E86E99A00FFACDB /* Stone.swift */; };
 		C7090DB91E86F20700FFACDB /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7090DB81E86F20700FFACDB /* Board.swift */; };
+		C7D114411E8FDBF800B3C518 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D114401E8FDBF800B3C518 /* Player.swift */; };
+		C7D114431E8FE33C00B3C518 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D114421E8FE33C00B3C518 /* Move.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		C7090DB41E86E78B00FFACDB /* StoneColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoneColor.swift; sourceTree = "<group>"; };
 		C7090DB61E86E99A00FFACDB /* Stone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stone.swift; sourceTree = "<group>"; };
 		C7090DB81E86F20700FFACDB /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		C7D114401E8FDBF800B3C518 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		C7D114421E8FE33C00B3C518 /* Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,8 @@
 		C7090D901E86E44300FFACDB = {
 			isa = PBXGroup;
 			children = (
+				C7D114401E8FDBF800B3C518 /* Player.swift */,
+				C7D114421E8FE33C00B3C518 /* Move.swift */,
 				C7090D9B1E86E44400FFACDB /* Flip */,
 				C7090D9A1E86E44400FFACDB /* Products */,
 			);
@@ -157,6 +163,8 @@
 				C7090DA31E86E44400FFACDB /* GameScene.swift in Sources */,
 				C7090DB91E86F20700FFACDB /* Board.swift in Sources */,
 				C7090DA51E86E44400FFACDB /* GameViewController.swift in Sources */,
+				C7D114431E8FE33C00B3C518 /* Move.swift in Sources */,
+				C7D114411E8FDBF800B3C518 /* Player.swift in Sources */,
 				C7090D9D1E86E44400FFACDB /* AppDelegate.swift in Sources */,
 				C7090DB51E86E78B00FFACDB /* StoneColor.swift in Sources */,
 			);
