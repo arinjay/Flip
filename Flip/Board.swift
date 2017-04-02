@@ -12,8 +12,70 @@ class Board: NSObject {
 
     var currentPlayer = Player.allPlayer[0]                // to board model need to which player is currently in control
     
+    // add method to board   1. check for move within bounds  2. Position occupied or not  3. Legal move/not
+                                    // taking initial as ,0  // if starting pr is 2,3  then moves to check are 1,2 etc
+    static let moves = [Move(row: -1,col:-1),Move(row: 0,col:-1),Move(row: 1,col:-1),
+                        Move(row: -1,col:0),Move(row: 1,col:0),Move(row: 0,col:1),
+                        Move(row: -1,col:1),Move(row: 1,col:1),]
+    
     
     static let size = 8
     var rows = [[StoneColor]]()
+    
+    func canMove(row:Int,col:Int) -> Bool{
+        //test 1
+        if !isInBounds(row: row, col: col) { return false }
+        
+        // Test 2
+        let stone = rows[row][col]
+        if stone != .empty {return false }
+        
+        
+        //test 3: check if move is legal or not
+        for move in Board.moves {  // loop 
+            
+            // create a var to track if we have passed one component atleast or not
+            var passedOpponent = false
+            
+            // set movements variable for tracking initial movements
+            var currentRow = row
+            var currentCol = col
+            
+            //loop from here to edge of board
+            for _ in  0 ..< Board.size {
+                
+                currentRow += move.row
+                currentCol += move.col
+                
+                // check if new position is off the board or not if yes than break out
+                guard isInBounds(row: currentRow, col: currentCol)  else { return false }
+                let stone = rows[currentRow][currentCol]
+                
+                if (stone == currentPlayer.opponent.stoneColor){
+                    passedOpponent = true
+                }
+                else if stone == currentPlayer.stoneColor && passedOpponent {
+                    return true
+                } else {
+                    
+                    //we found something else; bail out
+                    break
+                }
+                
+            }
+        }
+        return false
+    }
+    
+    //test #1 function
+    func isInBounds(row: Int,col: Int) -> Bool {
+        if row < 0 {return false}
+        if col < 0 {return false}
+        if row >= Board.size { return false}
+        if col >= Board.size {return false}
+        
+      return true
+    }
+    
     
 }
