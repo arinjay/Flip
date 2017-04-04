@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameplayKit
 
 class Board: NSObject {
 
@@ -125,6 +126,45 @@ class Board: NSObject {
      }
         return didCapture
     }
+    
+    
+    
+    func getScores() -> (black: Int, white: Int){
+        
+        
+        var black = 0
+        var white = 0
+        
+        rows.forEach {
+            $0.forEach {
+                if $0 == .black {
+                    black += 1
+                } else if $0 == .white {
+                    white += 1
+                }
+            }
+        }
+        return (black,white)
+    }
+    
+    
+    func isWin(for player: GKGameModelPlayer) -> Bool{
+        
+        guard let playerObject = player as?  Player else {
+            return false
+        }
+        let scores = getScores()
+        if playerObject.stoneColor == .black {
+            return scores.black > scores.white + 10
+        }
+        else
+        {
+            return scores.white > scores.black + 10
+        }
+    }
+    
+    
+    
     
     
 }
