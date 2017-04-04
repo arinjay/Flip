@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import GameplayKit
 
-class Player: NSObject {
+class Player: NSObject,GKGameModelPlayer{
+    
+    var playerId: Int
     
     // create a static array that store white & black player count
     static let allPlayer = [Player(stone:.black), Player(stone:.white)]
@@ -18,6 +21,7 @@ class Player: NSObject {
     
     init(stone: StoneColor) {
         stoneColor = stone
+        self.playerId = stone.rawValue
     }
     
     // a computed property to return players opponent
