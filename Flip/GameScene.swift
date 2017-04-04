@@ -104,13 +104,39 @@ class GameScene: SKScene {
         //7 pass the tapped stones row and column into our new canMove
         if board.canMove(row: tappedStone.row, col: tappedStone.col){
             //print msg
-            print("Move is legal")
+            
+            
+        //    print("Move is legal")
+            makeMove(row: tappedStone.row, col: tappedStone.col)
+        
         }else{
             print("move is illegal")
         }
-        
-        
-        
     }
+    
+    func makeMove (row:Int, col:Int) {
+        
+        let caputured = board.makeMove(player: board.currentPlayer, row: row, col: col)
+        for move in caputured {
+             let stone = rows[move.row][move.col]
+            
+            //update who owns it
+            stone.setPlayer(board.currentPlayer.stoneColor)
+            
+            //make it 120% of normal size
+            
+            stone.xScale = 1.2
+            stone.yScale = 1.2
+            // animate down to 100%
+            
+            
+            stone.run(SKAction.scale(by: 1, duration: 0.5))
+        }
+        
+        //change player
+        board.currentPlayer = board.currentPlayer.opponent
+    }
+    
+    
     
 }

@@ -77,5 +77,53 @@ class Board: NSObject {
       return true
     }
     
+    //works only if canMove it true, replaces oppo stone that of a player
+    func makeMove(player: Player, row: Int, col:Int) -> [Move] {
+        
+        //create an array to record capture stones 
+        var didCapture = [Move]()
+        
+        //placing stone in requested position
+        rows[row][col] = player.stoneColor
+        
+        didCapture.append(Move(row: row, col: col))
+        
+        //look in this direction for captured stones 
+        
+        var mightCapture = [Move]()
+        var currentRow = row
+        var currentCol = col
+        
+        // count here from edge of board applying moves
+        for _ in 0 ..< Board.size {
+            
+            currentRow += move.row
+            currentCol += move.col
+            
+            
+            //5 make sure this is as sensible move
+            
+            guard isInBounds(row: currentRow, col: currentCol) else { break }
+            
+            let stone = rows[currentRow][currentCol]
+            
+            if stone == player.opponent.stoneColor {
+                
+                // we find one of our stones, add mightcapture to did capture array
+                didCapture.append(contentsOf: mightCapture)
+                
+                
+                mightCapture.forEach {
+                    rows[$0.row][$0.col] = player.stoneColor
+                }
+                break
+            } else {
+                // 9 we found something else; bail out
+                break
+            }
+        }
+        return didCapture
+    }
+    
     
 }
