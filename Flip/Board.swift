@@ -128,13 +128,13 @@ class Board: NSObject {
     }
     
     
-    
+    // count number of white and black stone
     func getScores() -> (black: Int, white: Int){
         
         
         var black = 0
         var white = 0
-        
+        // looping through every column and row
         rows.forEach {
             $0.forEach {
                 if $0 == .black {
@@ -162,6 +162,61 @@ class Board: NSObject {
             return scores.white > scores.black + 10
         }
     }
+    
+    
+    func gameModelUpdates(for player:GKGameModelPlayer) -> [GKGameModelUpdate]? {
+        
+        //safely unwrap the player object    //typcasting
+        guard let playerObject =  player as? Player else { return nil }
+        
+        //if the game is over exit now
+        
+        if isWin(for: playerObject) || isWin(for: playerObject.opponent) {
+            return nil
+        }
+        
+        var moves = [Move]()
+        //try every col in every row
+        
+        for row in 0 ..< Board.size {
+            for col in 0 ..< Board.size {
+                if canMove(row: row, col: col){
+                    //possible move
+                    moves.append(Move(row: row, col: col))
+                }
+            }
+        }
+      return moves
+    }
+    
+    
+    func apply(_ gameModelUpdate: GKGameModelUpdate) {
+        
+        guard let move = gameModelUpdate as? Move else { return }
+        
+        _ = makeMove(player: currentPlayer, row: move.row, col: move.col)
+        
+        currentPlayer = currentPlayer.opponent
+    }
+    
+    func setGameModel(_ gameModel: GKGameModel){
+        
+        guard let board = gameModel as? Board else {return}
+        currentPlayer = board.currentPlayer
+        rows = board.rows
+    }
+    
+    
+    
+    func copy(with Zone: NSZone? = nil) -> AnyObject {
+        
+        let copy = Board()
+        copy.setGameModel(self as! GKGameModel)
+        
+        return copy
+    }
+    
+    
     
     
     
