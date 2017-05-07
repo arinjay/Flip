@@ -14,6 +14,9 @@ class GameScene: SKScene {
     
     var board : Board!
     
+    
+    var startegist: GKMonteCarloStrategist!
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
@@ -64,6 +67,11 @@ class GameScene: SKScene {
             
             rows.append(colArray)
 
+            startegist = GKMonteCarloStrategist()
+            startegist.budget = 100
+            startegist.explorationParameter = 1
+            startegist.randomSource = GKRandomSource.sharedRandom()
+            startegist.gameModel = board as! GKGameModel?
         }
         
         
@@ -135,6 +143,12 @@ class GameScene: SKScene {
         
         //change player
         board.currentPlayer = board.currentPlayer.opponent
+    }
+    
+    func makeAIMove(){
+        
+        
+        
     }
     
     
