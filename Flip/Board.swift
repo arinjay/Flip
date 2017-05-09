@@ -9,18 +9,28 @@
 import UIKit
 import GameplayKit
 
-class Board: NSObject {
+class Board: NSObject, GKGameModel {
 
     var currentPlayer = Player.allPlayer[0]                // to board model need to which player is currently in control
     
     // add method to board   1. check for move within bounds  2. Position occupied or not  3. Legal move/not
                                     // taking initial as ,0  // if starting pr is 2,3  then moves to check are 1,2 etc
+     static let size = 8
+    
+    var players: [GKGameModelPlayer]? {
+        return Player.allPlayer
+    }
+    
+    var activePlayer: GKGameModelPlayer? {
+        return currentPlayer
+    }
+    
     static let moves = [Move(row: -1,col:-1),Move(row: 0,col:-1),Move(row: 1,col:-1),
                         Move(row: -1,col:0),Move(row: 1,col:0),Move(row: 0,col:1),
                         Move(row: -1,col:1),Move(row: 1,col:1),]
     
     
-    static let size = 8
+   
     var rows = [[StoneColor]]()
     
     func canMove(row:Int,col:Int) -> Bool{
@@ -62,7 +72,6 @@ class Board: NSObject {
                     //we found something else; bail out
                     break
                 }
-                
             }
         }
         return false
@@ -124,8 +133,8 @@ class Board: NSObject {
             }
         }
      }
-        return didCapture
-    }
+    return didCapture
+   }
     
     
     // count number of white and black stone
@@ -208,18 +217,13 @@ class Board: NSObject {
     
     
     
-    func copy(with Zone: NSZone? = nil) -> AnyObject {
+    func copy(with Zone: NSZone? = nil) -> Any {
         
         let copy = Board()
         copy.setGameModel(self as! GKGameModel)
         
         return copy
     }
-    
-    
-    
-    
-    
     
     
 }

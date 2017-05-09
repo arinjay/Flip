@@ -33,9 +33,6 @@ class GameScene: SKScene {
         gameboard.zPosition = 2
         addChild(gameboard)
         
-        
-        
-        
         board = Board()
         
         // Setting up constant for positioning
@@ -67,11 +64,6 @@ class GameScene: SKScene {
             
             rows.append(colArray)
 
-            startegist = GKMonteCarloStrategist()
-            startegist.budget = 100
-            startegist.explorationParameter = 1
-            startegist.randomSource = GKRandomSource.sharedRandom()
-            startegist.gameModel = board as! GKGameModel?
         }
         
         
@@ -84,6 +76,14 @@ class GameScene: SKScene {
         board.rows[4][4] = .black
         board.rows[3][4] = .white
         board.rows[3][3] = .black
+        
+        
+        
+                    startegist = GKMonteCarloStrategist()
+                    startegist.budget = 100
+                    startegist.explorationParameter = 1
+                    startegist.randomSource = GKRandomSource.sharedRandom()
+                    startegist.gameModel = board
      }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -122,35 +122,127 @@ class GameScene: SKScene {
         }
     }
     
-    func makeMove (row:Int, col:Int) {
+//    func makeMove (row:Int, col:Int) {
+//        
+//        let caputured = board.makeMove(player: board.currentPlayer, row: row, col: col)
+//        for move in caputured {
+//             let stone = rows[move.row][move.col]
+//            
+//            //update who owns it
+//            stone.setPlayer(board.currentPlayer.stoneColor)
+//            
+//            //make it 120% of normal size
+//            
+//            stone.xScale = 1.2
+//            stone.yScale = 1.2
+//            // animate down to 100%
+//            
+//            
+//            stone.run(SKAction.scale(by: 1, duration: 0.5))
+//        }
+//        
+//        //change player
+//        
+//        board.currentPlayer = board.currentPlayer.opponent
+//    }
+
+    func makeMove(row: Int, col: Int) {
         
-        let caputured = board.makeMove(player: board.currentPlayer, row: row, col: col)
-        for move in caputured {
-             let stone = rows[move.row][move.col]
+        // find the list of captured stones
+        let captured = board.makeMove(player: board.currentPlayer, row: row, col: col)
+        for move in captured {
             
-            //update who owns it
+            // pull out the sprite for each captured stone
+            let stone = rows[move.row][move.col]
+            
+            // update who owns it
             stone.setPlayer(board.currentPlayer.stoneColor)
             
-            //make it 120% of normal size
-            
+            // make it 120% of its normal size
             stone.xScale = 1.2
             stone.yScale = 1.2
-            // animate down to 100%
             
-            
-            stone.run(SKAction.scale(by: 1, duration: 0.5))
+            // animate it down to 100%
+            stone.run(SKAction.scale(to: 1, duration: 0.5))
         }
         
-        //change player
+        // change players
         board.currentPlayer = board.currentPlayer.opponent
     }
     
-    func makeAIMove(){
+    
+    
+    
+    
+    
+    
+    
+//    func makeAIMove(){
+//        
+//        DispatchQueue.global(qos: QOS_CLASS_USER_INITIATED).async { [unowned self] in
+//        let strategistTime = CFAbsoluteTimeGetCurrent()
+//            
+//            guard let move = self.startegist.bestMoveForActivePlayer() as?  Move else {return }
+//            
+//            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+//            
+//            DispatchQueue.main.async { [unowned self] in
+//            
+//                self.rows[move.row][move.col].setPlayer(.choice)
+//                
+//                let aiTimeCeiling = 3.0
+//                let delay = min(aiTimeCeiling - delta, aiTimeCeiling)
+//                
+//                DispatchQueue.main.after(when: .now() + delay){ [unowned self] in
+//                    
+//                    self.makeMove(row: move.row, col: move.col)
+//                    
+//            }
+//        
+//        
+//    }
+//    
+//    
+//    
+//}
+//}
+
+    func makeAIMove() {
         
-        
-        
+        // 1: push all work to a background thread
+        DispatchQueue.global(qos: .userInitiated).async { [unowned
+            self] in
+            
+            // 2: get the current time
+            let strategistTime = CFAbsoluteTimeGetCurrent()
+            
+            // 3: calculate the best AI move
+            guard let move =
+                self.startegist.bestMoveForActivePlayer() as? Move else { return }
+            
+            // 4: figure out how much time the AI spent thinking
+            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+            
+            // 5: set the AI's chosen tile to the "thinking" texture
+            DispatchQueue.main.async { [unowned self] in
+                self.rows[move.row][move.col].setPlayer(.choice)
+            }
+            
+            // 6: wait for at least three seconds
+            let aiTimeCeiling = 3.0
+            let delay = min(aiTimeCeiling - delta, aiTimeCeiling)
+            
+            // 7: after at least three seconds have passed, make the move for real
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay)
+            { [unowned self] in
+                
+                self.makeMove(row: move.row, col: move.col)
+            }
+        }
     }
     
-    
-    
 }
+
+
+
+
